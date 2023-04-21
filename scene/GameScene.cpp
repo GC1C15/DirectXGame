@@ -4,6 +4,7 @@
 #include<ImGuiManager.h>
 #include<PrimitiveDrawer.h>
 #include<AxisIndicator.h>
+#include <DebugCamera.h>
 
 GameScene::GameScene() {}
 
