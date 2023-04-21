@@ -8,8 +8,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <DebugCamera.h>
 
-/// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
@@ -48,4 +48,14 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	DebugCamera* debugCamera_ = nullptr;
+	//背景スプライト
+	uint32_t textureHandle_BG = 0;
+	Sprite* spriteBG_ = nullptr;
+	//ビュープロジェクション(共通)
+	ViewProjection viewProjection_;
+	//ステージ
+	uint32_t textureHandle_Stage = 0;
+	Model* model_Stage = nullptr;
+	WorldTransform worldTransform_Stage;
 };
