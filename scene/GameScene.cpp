@@ -51,6 +51,10 @@ void GameScene::Initialize() {
 	worldTransform_Beam.scale_ = {0.3f, 0.3f, 0.3f};
 	worldTransform_Beam.Initialize();
 
+	//デバックテキスト
+	debugText_ = DebugText::GetInstance();
+	debugText_->Initialize();
+
 	// ビュープロジェクションの初期化
 	viewProjection_.translation_.y = 1;
 	viewProjection_.translation_.z = -6;
@@ -104,7 +108,7 @@ void GameScene::EnemyUpdate() {
 
 void GameScene::EnemyMove() {
 	if (EnemyFlag_ == 1) {
-		worldTransform_Enemy.translation_.z -= 0.1f;
+		worldTransform_Enemy.translation_.z -= 0.3f;
 		worldTransform_Enemy.rotation_.x -= 0.1f;
 	}
 	if (worldTransform_Enemy.translation_.z < -5.0f) {
@@ -146,9 +150,44 @@ void GameScene::BeamBorn() {
 	}
 }
 
+void GameScene::collision()
+{
+	collisionPlayerEnemy();
+	collisionBeamEnemy();
+}
+
+void GameScene::collisionPlayerEnemy() {
+	//敵が存在すれば
+		if (EnemyFlag_ == 1) {
+		//差を求める
+		float dx = abs(worldTransform_Player.translation_.x - worldTransform_Enemy.translation_.x);
+		float dz = abs(worldTransform_Player.translation_.z - worldTransform_Enemy.translation_.z);
+	//衝突したら
+		if (dx < 1 && dz < 1) {
+			EnemyFlag_ = 0;
+			playerLife_ -= 1;
+		}
+	}
+}
+
+void GameScene::collisionBeamEnemy() { 
+	// 敵が存在すれば
+	if (EnemyFlag_ == 1 && BeamFlag_ == 1) {
+		// 差を求める
+		float bx = abs(worldTransform_Enemy.translation_.x - worldTransform_Beam.translation_.x);
+		float bz = abs(worldTransform_Enemy.translation_.z - worldTransform_Beam.translation_.z);
+		// 衝突したら
+		if (bx < 1 && bz < 1) {
+			EnemyFlag_ = 0;
+			BeamFlag_ = 0;
+			gameScore_ += 100;
+		}
+	}
+}
+
 void GameScene::BeamMove() {
 	if (BeamFlag_ == 1) {
-		worldTransform_Beam.translation_.z += 0.1f;
+		worldTransform_Beam.translation_.z += 0.5f;
 		worldTransform_Beam.rotation_.x += 0.1f;
 	}
 	if (worldTransform_Beam.translation_.z > 40.0f) {
@@ -164,6 +203,7 @@ void GameScene::Update() {
 	PlayerUpdate();
 	BeamUpdate();
 	EnemyUpdate();
+	collision();
 }
 
 void GameScene::Draw() {
@@ -179,6 +219,16 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	//ゲームスコア
+	char str[100];
+	sprintf_s(str, "SCORE %d", gameScore_);
+	debugText_->Print(str, 200, 10, 2);
+	// ライフ
+	sprintf_s(str, "LIFE%d", playerLife_);
+	debugText_->Print(str, 800, 10, 2);
+	//↓これは最後に書く
+	debugText_->DrawAll();
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
