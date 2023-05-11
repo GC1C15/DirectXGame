@@ -185,6 +185,7 @@ void GameScene::collisionBeamEnemy() {
 	}
 }
 
+
 void GameScene::BeamMove() {
 	if (BeamFlag_ == 1) {
 		worldTransform_Beam.translation_.z += 0.5f;
@@ -200,13 +201,45 @@ void GameScene::BeamMove() {
 // ビーム関連↑
 
 void GameScene::Update() {
+	switch (sceneMode_) {
+	case 0:
+		GamePlayUpdate();
+		break;
+	}
+}
+
+void GameScene::GamePlayUpdate() {
 	PlayerUpdate();
 	BeamUpdate();
 	EnemyUpdate();
 	collision();
 }
 
+void GameScene::GamePlayDraw2DBack() { spriteBG_->Draw(); }
+
+void GameScene::GamePlayeDraw3D() {
+	model_Stage->Draw(worldTransform_Stage, viewProjection_, textureHandle_Stage);
+	model_Player->Draw(worldTransform_Player, viewProjection_, textureHandle_Player);
+	if (EnemyFlag_ == 1) {
+		model_Enemy->Draw(worldTransform_Enemy, viewProjection_, textureHandle_Enemy);
+	}
+	if (BeamFlag_ == 1) {
+		model_Beam->Draw(worldTransform_Beam, viewProjection_, textureHandle_Beam);
+	}
+}
+
+void GameScene::GamePlayDraw2DNear() {
+	// ゲームスコア
+	char str[100];
+	sprintf_s(str, "SCORE %d", gameScore_);
+	debugText_->Print(str, 200, 10, 2);
+	// ライフ
+	sprintf_s(str, "LIFE%d", playerLife_);
+	debugText_->Print(str, 900, 10, 2);
+}
+
 void GameScene::Draw() {
+
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
@@ -215,18 +248,20 @@ void GameScene::Draw() {
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
 	// 背景
-	spriteBG_->Draw();
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	//ゲームスコア
-	char str[100];
-	sprintf_s(str, "SCORE %d", gameScore_);
-	debugText_->Print(str, 200, 10, 2);
-	// ライフ
-	sprintf_s(str, "LIFE%d", playerLife_);
-	debugText_->Print(str, 800, 10, 2);
-	//↓これは最後に書く
+	switch (sceneMode_) {
+	case 0:
+		GamePlayDraw2DBack();
+		break;
+	}
+	switch (sceneMode_) {
+	case 0:
+		GamePlayDraw2DNear();
+		break;
+	}
+	// ↓これは最後に書く,動かさない
 	debugText_->DrawAll();
 
 
@@ -243,16 +278,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	// ステージ
-	model_Stage->Draw(worldTransform_Stage, viewProjection_, textureHandle_Stage);
-	model_Player->Draw(worldTransform_Player, viewProjection_, textureHandle_Player);
-	if (EnemyFlag_ == 1) {
-		model_Enemy->Draw(worldTransform_Enemy, viewProjection_, textureHandle_Enemy);
+	switch (sceneMode_) {
+	case 0:
+		GamePlayeDraw3D();
+		break;
 	}
-	if (BeamFlag_ == 1) {
-		model_Beam->Draw(worldTransform_Beam, viewProjection_, textureHandle_Beam);
-	}
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
