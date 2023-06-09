@@ -1,7 +1,2 @@
-#pragma once
-
-class Player
-{
-
-};
-
+﻿#pragma once
+class Stage {};
