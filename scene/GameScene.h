@@ -14,6 +14,7 @@
 /// ゲームシーン
 /// </summary>
 class GameScene {
+	ViewProjection viewProjection_;
 
 public: // メンバ関数
 	/// <summary>
@@ -45,6 +46,7 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	Stage* stage_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
