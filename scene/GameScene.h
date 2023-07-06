@@ -9,7 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Stage.h"
-
+#include "Player.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
