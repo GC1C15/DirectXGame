@@ -14,7 +14,6 @@ public:
 	Beam();
 	// デストラクタ
 	~Beam();
-
 	// 初期化
 	void Initialize(ViewProjection viewProjection);
 	// 更新
@@ -23,6 +22,8 @@ public:
 	void Draw3D();
 	// インプットクラス
 	Input* input_ = nullptr;
+	void Born();
+	void Move();
 
 private:
 	ViewProjection viewProjection_;
@@ -30,4 +31,5 @@ private:
 	uint32_t textureHandleBeam_ = 0;
 	Model* modelBeam_ = nullptr;
 	WorldTransform worldTransformBeam_;
+	int BeamTimer_ = 0;
 };
