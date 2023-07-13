@@ -32,4 +32,6 @@ private:
 	Model* modelBeam_ = nullptr;
 	WorldTransform worldTransformBeam_;
 	int BeamTimer_ = 0;
+	int BeamFlag_[10];
+	int worldTransform_Beam[10];
 };
