@@ -10,6 +10,7 @@
 #include "WorldTransform.h"
 #include "Stage.h"
 #include "Player.h"
+#include"Beam.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -48,6 +49,7 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	Stage* stage_ = nullptr;
 	Player* player_ = nullptr;
+	Beam* beam_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

@@ -23,6 +23,7 @@ public:
 	void Draw3D();
 	// インプットクラス
 	Input* input_ = nullptr;
+	float GetX() { return worldTransformPlayer_.translation_.x; }
 
 private:
 	ViewProjection viewProjection_;

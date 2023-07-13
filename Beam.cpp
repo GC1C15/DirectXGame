@@ -1,45 +1,44 @@
-#include "Beam.h"
-
+Ôªø#include "Beam.h"
+#include"Player.h"
 Beam::Beam() {}
 
 Beam::~Beam() { delete modelBeam_; }
 
-void Beam::Initialize(ViewProjection viewProjection) {
+void Beam::Initialize(ViewProjection viewProjection, Player* player) {
 	viewProjection_ = viewProjection;
-	// ÉvÉåÉCÉÑÅ[
-	textureHandleBeam_ = TextureManager::Load("player.png");
+	player_ = player;
+	// „Éì„Éº„É†
+	for (int i = 0; i < 10; i++)
+	{
+	textureHandleBeam_ = TextureManager::Load("beam.png");
 	modelBeam_ = Model::Create();
-	worldTransformBeam_.scale_ = {0.5f, 0.5f, 0.5f};
-	worldTransformBeam_.Initialize();
-	// ÉCÉìÉvÉbÉgÉNÉâÉX
+	worldTransformBeam_[i].scale_ = {0.3f, 0.3f, 0.3f};
+	worldTransformBeam_[i].Initialize();
+	}
+	// „Ç§„É≥„Éó„ÉÉ„Éà„ÇØ„É©„Çπ
 	input_ = Input::GetInstance();
 }
 
 void Beam::Update() {
-	// ïœçXçsóÒÇÃçXêV
-	worldTransformBeam_.matWorld_ = MakeAffineMatrix(
-	    worldTransformBeam_.scale_, worldTransformBeam_.rotation_,
-	    worldTransformBeam_.translation_);
-	// ïœçXçsóÒÇÃíËêîÉoÉbÉtÉ@Çì]ëó
-	worldTransformBeam_.TransferMatrix();
-	if (worldTransformBeam_.translation_.x > 4) {
-		worldTransformBeam_.translation_.x = 4;
-	}
-	if (worldTransformBeam_.translation_.x < -4) {
-		worldTransformBeam_.translation_.x = -4;
+	// „Éì„Éº„É†„ÅÆÊõ¥Êñ∞
+	Born();
+	Move();
+	for (int i = 0; i < 10; i++) {
+	worldTransformBeam_[i].matWorld_ = MakeAffineMatrix(
+		worldTransformBeam_[i].scale_, worldTransformBeam_[i].rotation_,
+		worldTransformBeam_[i].translation_);
+	// Â§âÊõ¥Ë°åÂàó„ÇíÂÆöÊï∞„Éê„ÉÉ„Éï„Ç°„Å´Ëª¢ÈÄÅ
+	worldTransformBeam_[i].TransferMatrix();
 	}
 }
-
 void Beam::Born() {
 	if (BeamTimer_ == 0) {
 		for (int i = 0; i < 10; i++) {
 			if (input_->PushKey(DIK_SPACE)) {
 				if (BeamFlag_[i] == 0) {
-					worldTransform_Beam[i].translation_.x = worldTransform_Beam.translation_.x;
-					worldTransform_Beam[i].translation_.y = worldTransform_Beam.translation_.y;
-					worldTransform_Beam[i].translation_.z = worldTransform_Beam.translation_.z;
-					BeamFlag_[i] = 1;
+					worldTransformBeam_[i].translation_.x = player_->GetX();
 					BeamTimer_ = 1;
+					BeamFlag_[i] = 1;   
 					break;
 				}
 			}
@@ -55,21 +54,24 @@ void Beam::Born() {
 void Beam::Move() {
 	for (int i = 0; i < 10; i++) {
 		if (BeamFlag_[i] == 1) {
-			worldTransform_Beam[i].translation_.z += 0.5f;
-			worldTransform_Beam[i].rotation_.x += 0.1f;
+			worldTransformBeam_[i].translation_.z += 0.5f;
+			worldTransformBeam_[i].rotation_.x += 0.1f;
 		}
 
-		if (worldTransform_Beam[i].translation_.z > 40.0f) {
-			worldTransform_Beam[i].translation_.x = -10.0f;
-			worldTransform_Beam[i].translation_.y = -10.0f;
-			worldTransform_Beam[i].translation_.z = -10.0f;
+		if (worldTransformBeam_[i].translation_.z > 40.0f) {
+			worldTransformBeam_[i].translation_.x = -10.0f;
+			worldTransformBeam_[i].translation_.y = -10.0f;
+			worldTransformBeam_[i].translation_.z = -10.0f;
 			BeamFlag_[i] = 0;
 		}
 	}
 }
-// ÉrÅ[ÉÄä÷òAÅ™
+// „Éì„Éº„É†Èñ¢ÈÄ£‚Üë
 
 void Beam::Draw3D() {
-	// stage
-	modelBeam_->Draw(worldTransformBeam_, viewProjection_, textureHandleBeam_);
+	// „Éì„Éº„É†
+	for (int i = 0; i < 10; i++)
+	{
+		modelBeam_->Draw(worldTransformBeam_[i], viewProjection_, textureHandleBeam_);
+	}
 }

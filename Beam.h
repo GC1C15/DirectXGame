@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "MathUtilityForText.h"
@@ -7,31 +7,32 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include"Player.h"
 
 class Beam {
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Beam();
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~Beam();
-	// ‰Šú‰»
-	void Initialize(ViewProjection viewProjection);
-	// XV
+	// åˆæœŸåŒ–
+	void Initialize(ViewProjection viewProjection, Player* player);
+	// æ›´æ–°
 	void Update();
-	// 3D•`‰æ
+	// 3Dæç”»
 	void Draw3D();
-	// ƒCƒ“ƒvƒbƒgƒNƒ‰ƒX
+	// ã‚¤ãƒ³ãƒ—ãƒƒãƒˆã‚¯ãƒ©ã‚¹
 	Input* input_ = nullptr;
 	void Born();
 	void Move();
 
 private:
 	ViewProjection viewProjection_;
-	// ƒr[ƒ€
+	// ãƒ“ãƒ¼ãƒ 
 	uint32_t textureHandleBeam_ = 0;
 	Model* modelBeam_ = nullptr;
-	WorldTransform worldTransformBeam_;
+	WorldTransform worldTransformBeam_[10];
 	int BeamTimer_ = 0;
 	int BeamFlag_[10];
-	int worldTransform_Beam[10];
+	Player* player_ = nullptr;
 };
