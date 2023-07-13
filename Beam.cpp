@@ -38,7 +38,7 @@ void Beam::Born() {
 				if (BeamFlag_[i] == 0) {
 					worldTransformBeam_[i].translation_.x = player_->GetX();
 					worldTransformBeam_[i].translation_.y = player_->GetY();
-					worldTransformBeam_[i].translation_.z = player_->GetZ ();
+					worldTransformBeam_[i].translation_.z = player_->GetZ();
 					BeamTimer_ = 1;
 					BeamFlag_[i] = 1;   
 					break;
@@ -74,6 +74,9 @@ void Beam::Draw3D() {
 	// ビーム
 	for (int i = 0; i < 10; i++)
 	{
+		if (BeamFlag_[i] == 1) 
+		{
 		modelBeam_->Draw(worldTransformBeam_[i], viewProjection_, textureHandleBeam_);
+		}
 	}
 }
