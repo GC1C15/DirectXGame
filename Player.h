@@ -24,6 +24,8 @@ public:
 	// インプットクラス
 	Input* input_ = nullptr;
 	float GetX() { return worldTransformPlayer_.translation_.x; }
+	float GetY() { return worldTransformPlayer_.translation_.y; }
+	float GetZ() { return worldTransformPlayer_.translation_.z; }
 
 private:
 	ViewProjection viewProjection_;

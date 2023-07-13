@@ -37,6 +37,8 @@ void Beam::Born() {
 			if (input_->PushKey(DIK_SPACE)) {
 				if (BeamFlag_[i] == 0) {
 					worldTransformBeam_[i].translation_.x = player_->GetX();
+					worldTransformBeam_[i].translation_.y = player_->GetY();
+					worldTransformBeam_[i].translation_.z = player_->GetZ ();
 					BeamTimer_ = 1;
 					BeamFlag_[i] = 1;   
 					break;
