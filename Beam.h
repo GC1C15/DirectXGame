@@ -3,34 +3,36 @@
 #include "Input.h"
 #include "MathUtilityForText.h"
 #include "Model.h"
+#include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-class Player {
+class Beam {
 public:
 	// コンストラクタ
-	Player();
+	Beam();
 	// デストラクタ
-	~Player();
-
+	~Beam();
 	// 初期化
-	void Initialize(ViewProjection viewProjection);
+	void Initialize(ViewProjection viewProjection, Player* player);
 	// 更新
 	void Update();
 	// 3D描画
 	void Draw3D();
 	// インプットクラス
 	Input* input_ = nullptr;
-	float GetX() { return worldTransformPlayer_.translation_.x; }
-	float GetY() { return worldTransformPlayer_.translation_.y; }
-	float GetZ() { return worldTransformPlayer_.translation_.z; }
+	void Born();
+	void Move();
 
 private:
 	ViewProjection viewProjection_;
-	// プレイヤー
-	uint32_t textureHandlePlayer_ = 0;
-	Model* modelPlayer_ = nullptr;
-	WorldTransform worldTransformPlayer_;
+	// ビーム
+	uint32_t textureHandleBeam_ = 0;
+	Model* modelBeam_ = nullptr;
+	WorldTransform worldTransformBeam_[10];
+	int BeamTimer_ = 0;
+	int BeamFlag_[10];
+	Player* player_ = nullptr;
 };
