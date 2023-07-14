@@ -1,15 +1,16 @@
 #pragma once
 
 #include "Audio.h"
+#include "Beam.h"
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
+#include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
+#include "Stage.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "Stage.h"
-
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -47,6 +48,8 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	Stage* stage_ = nullptr;
+	Player* player_ = nullptr;
+	Beam* beam_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

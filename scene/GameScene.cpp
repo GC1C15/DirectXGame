@@ -4,9 +4,10 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() 
-{
+GameScene::~GameScene() {
 	delete stage_;
+	delete player_;
+	delete beam_;
 }
 
 void GameScene::Initialize() {
@@ -14,8 +15,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	
-	//stage
+	// stage
 	viewProjection_.translation_.y = 1;
 	viewProjection_.translation_.z = -6;
 	viewProjection_.Initialize();
@@ -24,9 +24,20 @@ void GameScene::Initialize() {
 	stage_ = new Stage();
 	stage_->Initialize(viewProjection_);
 
+	// プレイヤー
+	player_ = new Player();
+	player_->Initialize(viewProjection_);
+
+	// ビーム
+	beam_ = new Beam();
+	beam_->Initialize(viewProjection_, player_);
 }
 
-void GameScene::Update() { stage_->Update(); }
+void GameScene::Update() {
+	stage_->Update();
+	player_->Update();
+	beam_->Update();
+}
 
 void GameScene::Draw() {
 
@@ -56,6 +67,8 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	stage_->Draw3D();
+	player_->Draw3D();
+	beam_->Draw3D();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -63,7 +76,7 @@ void GameScene::Draw() {
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(commandList);
-	
+
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
