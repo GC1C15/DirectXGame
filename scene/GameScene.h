@@ -9,6 +9,7 @@
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "Stage.h"
+#include "Enemy.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 /// <summary>
@@ -50,7 +51,7 @@ private: // メンバ変数
 	Stage* stage_ = nullptr;
 	Player* player_ = nullptr;
 	Beam* beam_ = nullptr;
-
+	Enemy* enemy_ = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
