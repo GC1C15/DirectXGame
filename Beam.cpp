@@ -26,24 +26,17 @@ void Beam::Update() {
 		// 変更行列を定数バッファに転送
 		worldTransformBeam_.TransferMatrix();
 }
+
 void Beam::Born() {
-	if (BeamTimer_ == 0) {
-		if (input_->PushKey(DIK_SPACE)) {
-			if (BeamFlag_ == 0) {
-				worldTransformBeam_.translation_.x = player_->GetX();
-				worldTransformBeam_.translation_.y = player_->GetY();
-				worldTransformBeam_.translation_.z = player_->GetZ();
-				BeamTimer_ = 1;
-				BeamFlag_ = 1;
-			}
-		}
-	} else {
-		BeamTimer_++;
-		if (BeamTimer_ > 10) {
-			BeamTimer_ = 0;
-		}
+	if (input_->PushKey(DIK_SPACE)) {
+	    if (BeamFlag_ == 0) {
+		    worldTransformBeam_.translation_.x = player_->GetX();
+		    worldTransformBeam_.translation_.z = player_->GetZ();
+		    BeamFlag_ = 1;
+	    }
 	}
 }
+
 
 void Beam::Move() {
 	if (BeamFlag_ == 1) {
@@ -52,9 +45,6 @@ void Beam::Move() {
 	}
 
 	if (worldTransformBeam_.translation_.z > 40.0f) {
-		worldTransformBeam_.translation_.x = -10.0f;
-		worldTransformBeam_.translation_.y = -10.0f;
-		worldTransformBeam_.translation_.z = -10.0f;
 		BeamFlag_ = 0;
 	}
 }

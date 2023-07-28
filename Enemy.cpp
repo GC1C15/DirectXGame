@@ -18,7 +18,7 @@ void Enemy::Update() {
 	// 敵の更新
 	Move();
 	Born();
-	Jump();
+	//Jump();
 	worldTransformEnemy_.matWorld_ = MakeAffineMatrix(
 	worldTransformEnemy_.scale_, worldTransformEnemy_.rotation_,
 	worldTransformEnemy_.translation_);
@@ -27,22 +27,22 @@ void Enemy::Update() {
 }
 
 void Enemy::Born() {
-	    if (GetFlag_() == 0) {
-		    if (rand() % 10 == 0) {
-			    int x = rand() % 80;
-			    float x2 = (float)x / 10 - 4;
-			    worldTransformEnemy_.translation_.x = x2;
-			    worldTransformEnemy_.translation_.z = 40.0f;
-			    EnemyFlag_ = 1;
-			    // EnemyFlag_ = enemy_->GetFlag_();
+	if (GetFlag_() == 0) {
+	    if (rand() % 10 == 0) {
+		    int x = rand() % 80;
+		    float x2 = (float)x / 10 - 4;
+		    worldTransformEnemy_.translation_.x = x2;
+		    worldTransformEnemy_.translation_.z = 40.0f;
+		    EnemyFlag_ = 1;
+		    // EnemyFlag_ = enemy_->GetFlag_();
 
-			    if (rand() % 2 == 0) {
-				    enemySpeed_ = 0.1f;
-			    } else {
-				    enemySpeed_ = -0.1f;
-			    }
+		    if (rand() % 2 == 0) {
+			    enemySpeed_ = 0.1f;
+		    } else {
+			    enemySpeed_ = -0.1f;
 		    }
 	    }
+	}
 }
 
 void Enemy::Move() {
@@ -56,7 +56,8 @@ void Enemy::Move() {
 	if (GetFlag_() == 1) {
 		gameTimer_++;
 		worldTransformEnemy_.translation_.x += enemySpeed_;
-		worldTransformEnemy_.translation_.z -= gameTimer_ / 1000.0f;
+		worldTransformEnemy_.translation_.z -= 0.1f;
+		
 		worldTransformEnemy_.rotation_.x -= 0.1f;
 	}
 	if (worldTransformEnemy_.translation_.z < -5.0f) {
@@ -66,18 +67,20 @@ void Enemy::Move() {
 	}
 }
 
-void Enemy::Jump() {
-	if (GetFlag_() == 2) {
-		worldTransformEnemy_.translation_.y += enemyJumpSpeed_;
-		enemyJumpSpeed_ -= 0.1f;
-		worldTransformEnemy_.translation_.x += enemySpeed_ * 2;
-		if (worldTransformEnemy_.translation_.y < -3) {
-			EnemyFlag_ = 0;
-			//EnemyFlag_ = enemy_->GetFlag_();
-			worldTransformEnemy_.translation_.y = 0;
-		}
-	}
-}
+//void Enemy::Jump() {
+//	if (GetFlag_() == 2) {
+//		worldTransformEnemy_.translation_.y += enemyJumpSpeed_;
+//		enemyJumpSpeed_ -= 0.1f;
+//		worldTransformEnemy_.translation_.x += enemySpeed_ * 2;
+//		if (worldTransformEnemy_.translation_.y < 1) {
+//			EnemyFlag_ = 0;
+//			//EnemyFlag_ = enemy_->GetFlag_();
+//			worldTransformEnemy_.translation_.y = 0;
+//		}
+//	}
+//}
+
+void Enemy::Hit() { EnemyFlag_ = 0; }
 
 void Enemy::Draw3D() {
 	if (GetFlag_() != 0) {

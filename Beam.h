@@ -29,6 +29,7 @@ public:
 	float GetX() { return worldTransformBeam_.translation_.x; }
 	float GetY() { return worldTransformBeam_.translation_.y; }
 	float GetZ() { return worldTransformBeam_.translation_.z; }
+	void Hit() { BeamFlag_ = 0; }
 
 private:
 	ViewProjection viewProjection_;
@@ -37,6 +38,6 @@ private:
 	Model* modelBeam_ = nullptr;
 	WorldTransform worldTransformBeam_;
 	int BeamTimer_ = 0;
-	int BeamFlag_;
+	int BeamFlag_ = 0;
 	Player* player_ = nullptr;
 };

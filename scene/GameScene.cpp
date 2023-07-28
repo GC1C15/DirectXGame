@@ -1,6 +1,5 @@
 #include "GameScene.h"
 #include "TextureManager.h"
-#include <cassert>
 
 GameScene::GameScene() {}
 
@@ -38,6 +37,15 @@ void GameScene::Initialize() {
 	enemy_->Initialize(viewProjection_, enemy_);
 }
 
+// 当たり判定関連↑
+void GameScene::Update() {
+	stage_->Update();
+	player_->Update();
+	beam_->Update();
+	enemy_->Update();
+	collision();
+}
+
 // 当たり判定関連↓
 void GameScene::collision() {
 	collisionPlayerEnemy();
@@ -63,20 +71,15 @@ void GameScene::collisionBeamEnemy() {
 	if (enemy_->GetFlag_() == 1 && beam_->GetFlag_() == 1) {
 		// 差を求める
 		float bx = abs(enemy_->GetX() - beam_->GetX());
-		float bz = abs(enemy_->GetX() - beam_->GetZ());
+		float bz = abs(enemy_->GetZ() - beam_->GetZ());
 		// 衝突したら
 		if (bx < 1 && bz < 1) {
 			enemy_->Hit();
+			beam_->Hit();
 		}
 	}
 }
-// 当たり判定関連↑
-void GameScene::Update() {
-	stage_->Update();
-	player_->Update();
-	beam_->Update();
-	enemy_->Update();
-}
+
 
 void GameScene::Draw() {
 

@@ -24,9 +24,9 @@ public:
 	Input* input_ = nullptr;
 	void Born();
 	void Move();
-	void Jump();
+	//void Jump();
+	void Hit();//衝突処理
 	int GetFlag_() { return EnemyFlag_; }
-	void Hit() { isAlive_ = 0; }
 	float GetX() { return worldTransformEnemy_.translation_.x; }
 	float GetY() { return worldTransformEnemy_.translation_.y; }
 	float GetZ() { return worldTransformEnemy_.translation_.z; }
@@ -41,7 +41,6 @@ private:
 	WorldTransform worldTransformEnemy_;
 	float enemySpeed_ = {};
 	int EnemyFlag_;
-	int isAlive_;
 	float enemyJumpSpeed_ = 3;
 	int gameTimer_ = 0;
 };
