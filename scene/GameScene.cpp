@@ -35,7 +35,7 @@ void GameScene::Initialize() {
 
 	//エネミー
 	enemy_ = new Enemy();
-	enemy_->Initialize(viewProjection_);
+	enemy_->Initialize(viewProjection_, enemy_);
 }
 
 void GameScene::Update() {

@@ -4,14 +4,14 @@ Enemy::Enemy() {}
 
 Enemy::~Enemy() { delete modelEnemy_; }
 
-void Enemy::Initialize(ViewProjection viewProjection) {
-	for (int i = 0; i < 10; i++) {
-		viewProjection_ = viewProjection;
-		textureHandleEnemy_ = TextureManager::Load("enemy.png");
-		modelEnemy_ = Model::Create();
-		worldTransformEnemy_[i].scale_ = {0.5f, 0.5f, 0.5f};
-		worldTransformEnemy_[i].Initialize();
-	}
+void Enemy::Initialize(ViewProjection viewProjection, Enemy* enemy) {
+	viewProjection_ = viewProjection;
+	enemy_ = enemy;
+	//エネミー
+	textureHandleEnemy_ = TextureManager::Load("enemy.png");
+	modelEnemy_ = Model::Create();
+	worldTransformEnemy_.scale_ = {0.5f, 0.5f, 0.5f};
+	worldTransformEnemy_.Initialize();
 }
 
 void Enemy::Update() {
@@ -19,76 +19,68 @@ void Enemy::Update() {
 	Move();
 	Born();
 	Jump();
-	for (int i = 0; i < 10; i++) {
-		worldTransformEnemy_[i].matWorld_ = MakeAffineMatrix(
-		    worldTransformEnemy_[i].scale_, worldTransformEnemy_[i].rotation_,
-		    worldTransformEnemy_[i].translation_);
+	worldTransformEnemy_.matWorld_ = MakeAffineMatrix(
+	worldTransformEnemy_.scale_, worldTransformEnemy_.rotation_,
+	worldTransformEnemy_.translation_);
 		// 変更行列を定数バッファに転送
-		worldTransformEnemy_[i].TransferMatrix();
-	}
+		worldTransformEnemy_.TransferMatrix();
 }
 
 void Enemy::Move() {
-	for (int i = 0; i < 10; i++) {
-		if (worldTransformEnemy_[i].translation_.x < -4) {
-			enemySpeed_[i] *= -1.0f;
-		}
-		if (worldTransformEnemy_[i].translation_.x > 4) {
-			enemySpeed_[i] *= -1.0f;
-		}
+	if (worldTransformEnemy_.translation_.x < -4) {
+		enemySpeed_ *= -1.0f;
+	}
+	if (worldTransformEnemy_.translation_.x > 4) {
+		enemySpeed_ *= -1.0f;
+	}
 
-		if (EnemyFlag_[i] == 1) {
-			worldTransformEnemy_[i].translation_.x += enemySpeed_[i];
-			worldTransformEnemy_[i].translation_.z -= gameTimer_ / 1000.0f;
-			worldTransformEnemy_[i].rotation_.x -= 0.1f;
-		}
-		if (worldTransformEnemy_[i].translation_.z < -5.0f) {
-			worldTransformEnemy_[i].translation_.z = 40.0f;
-			EnemyFlag_[i] = 0;
-		}
+	if (GetFlag_() == 1) {
+		worldTransformEnemy_.translation_.x += enemySpeed_;
+		worldTransformEnemy_.translation_.z -= gameTimer_ / 1000.0f;
+		worldTransformEnemy_.rotation_.x -= 0.1f;
+	}
+	if (worldTransformEnemy_.translation_.z < -5.0f) {
+		worldTransformEnemy_.translation_.z = 40.0f;
+		EnemyFlag_ = 0;
+		//EnemyFlag_ = enemy_->GetFlag_();
 	}
 }
 
 void Enemy::Born() {
-	for (int i = 0; i < 10; i++) {
-		if (EnemyFlag_[i] == 0) {
-			gameTimer_++;
-			if (rand() % 10 == 0) {
-				int x = rand() % 80;
-				float x2 = (float)x / 10 - 4;
-				worldTransformEnemy_[i].translation_.x = x2;
-				worldTransformEnemy_[i].translation_.z = 40.0f;
-				EnemyFlag_[i] = 1;
+	if (GetFlag_() == 0) {
+		gameTimer_++;
+		if (rand() % 10 == 0) {
+			int x = rand() % 80;
+			float x2 = (float)x / 10 - 4;
+			worldTransformEnemy_.translation_.x = x2;
+			worldTransformEnemy_.translation_.z = 40.0f;
+			EnemyFlag_ = 1;
+			//EnemyFlag_ = enemy_->GetFlag_();
 
-				if (rand() % 2 == 0) {
-					enemySpeed_[i] = 0.1f;
-				} else {
-					enemySpeed_[i] = -0.1f;
-				}
+			if (rand() % 2 == 0) {
+				enemySpeed_ = 0.1f;
+			} else {
+				enemySpeed_ = -0.1f;
 			}
-			break;
 		}
 	}
 }
 
 void Enemy::Jump() {
-	for (int i = 0; i < 10; i++) {
-		if (EnemyFlag_[i] == 2) {
-			worldTransformEnemy_[i].translation_.y += enemyJumpSpeed_[i];
-			enemyJumpSpeed_[i] -= 0.1f;
-			worldTransformEnemy_[i].translation_.x += enemySpeed_[i] * 2;
-			if (worldTransformEnemy_[i].translation_.y < -3) {
-				EnemyFlag_[i] = 0;
-				worldTransformEnemy_[i].translation_.y = 0;
-			}
+	if (GetFlag_() == 2) {
+		worldTransformEnemy_.translation_.y += enemyJumpSpeed_;
+		enemyJumpSpeed_ -= 0.1f;
+		worldTransformEnemy_.translation_.x += enemySpeed_ * 2;
+		if (worldTransformEnemy_.translation_.y < -3) {
+			EnemyFlag_ = 0;
+			//EnemyFlag_ = enemy_->GetFlag_();
+			worldTransformEnemy_.translation_.y = 0;
 		}
 	}
 }
 
 void Enemy::Draw3D() {
-	for (int i = 0; i < 10; i++) {
-		if (EnemyFlag_[i] != 0) {
-			modelEnemy_->Draw(worldTransformEnemy_[i], viewProjection_, textureHandleEnemy_);
-		}
+	if (GetFlag_() != 0) {
+		modelEnemy_->Draw(worldTransformEnemy_, viewProjection_, textureHandleEnemy_);
 	}
 }

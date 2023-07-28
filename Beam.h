@@ -31,8 +31,8 @@ private:
 	// ビーム
 	uint32_t textureHandleBeam_ = 0;
 	Model* modelBeam_ = nullptr;
-	WorldTransform worldTransformBeam_[10];
+	WorldTransform worldTransformBeam_;
 	int BeamTimer_ = 0;
-	int BeamFlag_[10];
+	int BeamFlag_;
 	Player* player_ = nullptr;
 };

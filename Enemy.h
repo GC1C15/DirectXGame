@@ -15,7 +15,7 @@ public:
 	// デストラクタ
 	~Enemy();
 	// 初期化
-	void Initialize(ViewProjection viewProjection);
+	void Initialize(ViewProjection viewProjection, Enemy* enemy);
 	// 更新
 	void Update();
 	// 3D描画
@@ -25,15 +25,17 @@ public:
 	void Born();
 	void Move();
 	void Jump();
+	int GetFlag_() { return EnemyFlag_; }
 
 private:
 	ViewProjection viewProjection_;
 	// ビーム
 	uint32_t textureHandleEnemy_ = 0;
 	Model* modelEnemy_ = nullptr;
-	WorldTransform worldTransformEnemy_[10];
-	float enemySpeed_[10] = {};
-	int EnemyFlag_[10];
-	float enemyJumpSpeed_[10] = {};
+	Enemy* enemy_ = nullptr;
+	WorldTransform worldTransformEnemy_;
+	float enemySpeed_ = {};
+	int EnemyFlag_;
+	float enemyJumpSpeed_ = {};
 	int gameTimer_ = 0;
 };
