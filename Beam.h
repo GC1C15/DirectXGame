@@ -25,6 +25,10 @@ public:
 	Input* input_ = nullptr;
 	void Born();
 	void Move();
+	int GetFlag_() { return BeamFlag_; }
+	float GetX() { return worldTransformBeam_.translation_.x; }
+	float GetY() { return worldTransformBeam_.translation_.y; }
+	float GetZ() { return worldTransformBeam_.translation_.z; }
 
 private:
 	ViewProjection viewProjection_;

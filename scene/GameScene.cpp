@@ -38,6 +38,39 @@ void GameScene::Initialize() {
 	enemy_->Initialize(viewProjection_, enemy_);
 }
 
+// 当たり判定関連↓
+void GameScene::collision() {
+	collisionPlayerEnemy();
+	collisionBeamEnemy();
+}
+
+void GameScene::collisionPlayerEnemy() {
+	// 敵が存在すれば
+	if (enemy_->GetFlag_() == 1) {
+		// 差を求める
+		float dx = abs(player_->GetX() - enemy_->GetX());
+		float dz = abs(player_->GetZ() - enemy_->GetZ());
+		// 衝突したら
+		if (dx < 1 && dz < 1) 
+		{
+			enemy_->Hit();
+		}
+	}
+}
+
+void GameScene::collisionBeamEnemy() {
+	// 敵が存在すれば
+	if (enemy_->GetFlag_() == 1 && beam_->GetFlag_() == 1) {
+		// 差を求める
+		float bx = abs(enemy_->GetX() - beam_->GetX());
+		float bz = abs(enemy_->GetX() - beam_->GetZ());
+		// 衝突したら
+		if (bx < 1 && bz < 1) {
+			enemy_->Hit();
+		}
+	}
+}
+// 当たり判定関連↑
 void GameScene::Update() {
 	stage_->Update();
 	player_->Update();
@@ -58,7 +91,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
+	
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア

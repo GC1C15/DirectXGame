@@ -26,6 +26,7 @@ public:
 	float GetX() { return worldTransformPlayer_.translation_.x; }
 	float GetY() { return worldTransformPlayer_.translation_.y; }
 	float GetZ() { return worldTransformPlayer_.translation_.z; }
+	//void Hit() { isAlive_ = 0; }
 
 private:
 	ViewProjection viewProjection_;
@@ -33,4 +34,5 @@ private:
 	uint32_t textureHandlePlayer_ = 0;
 	Model* modelPlayer_ = nullptr;
 	WorldTransform worldTransformPlayer_;
+	int isAlive_;
 };

@@ -26,6 +26,11 @@ public:
 	void Move();
 	void Jump();
 	int GetFlag_() { return EnemyFlag_; }
+	void Hit() { isAlive_ = 0; }
+	float GetX() { return worldTransformEnemy_.translation_.x; }
+	float GetY() { return worldTransformEnemy_.translation_.y; }
+	float GetZ() { return worldTransformEnemy_.translation_.z; }
+
 
 private:
 	ViewProjection viewProjection_;
@@ -36,6 +41,7 @@ private:
 	WorldTransform worldTransformEnemy_;
 	float enemySpeed_ = {};
 	int EnemyFlag_;
-	float enemyJumpSpeed_ = {};
+	int isAlive_;
+	float enemyJumpSpeed_ = 3;
 	int gameTimer_ = 0;
 };

@@ -26,6 +26,25 @@ void Enemy::Update() {
 		worldTransformEnemy_.TransferMatrix();
 }
 
+void Enemy::Born() {
+	    if (GetFlag_() == 0) {
+		    if (rand() % 10 == 0) {
+			    int x = rand() % 80;
+			    float x2 = (float)x / 10 - 4;
+			    worldTransformEnemy_.translation_.x = x2;
+			    worldTransformEnemy_.translation_.z = 40.0f;
+			    EnemyFlag_ = 1;
+			    // EnemyFlag_ = enemy_->GetFlag_();
+
+			    if (rand() % 2 == 0) {
+				    enemySpeed_ = 0.1f;
+			    } else {
+				    enemySpeed_ = -0.1f;
+			    }
+		    }
+	    }
+}
+
 void Enemy::Move() {
 	if (worldTransformEnemy_.translation_.x < -4) {
 		enemySpeed_ *= -1.0f;
@@ -35,6 +54,7 @@ void Enemy::Move() {
 	}
 
 	if (GetFlag_() == 1) {
+		gameTimer_++;
 		worldTransformEnemy_.translation_.x += enemySpeed_;
 		worldTransformEnemy_.translation_.z -= gameTimer_ / 1000.0f;
 		worldTransformEnemy_.rotation_.x -= 0.1f;
@@ -43,26 +63,6 @@ void Enemy::Move() {
 		worldTransformEnemy_.translation_.z = 40.0f;
 		EnemyFlag_ = 0;
 		//EnemyFlag_ = enemy_->GetFlag_();
-	}
-}
-
-void Enemy::Born() {
-	if (GetFlag_() == 0) {
-		gameTimer_++;
-		if (rand() % 10 == 0) {
-			int x = rand() % 80;
-			float x2 = (float)x / 10 - 4;
-			worldTransformEnemy_.translation_.x = x2;
-			worldTransformEnemy_.translation_.z = 40.0f;
-			EnemyFlag_ = 1;
-			//EnemyFlag_ = enemy_->GetFlag_();
-
-			if (rand() % 2 == 0) {
-				enemySpeed_ = 0.1f;
-			} else {
-				enemySpeed_ = -0.1f;
-			}
-		}
 	}
 }
 
