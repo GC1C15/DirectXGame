@@ -12,6 +12,7 @@
 #include "Enemy.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugText.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -59,6 +60,8 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 	Beam* beam_ = nullptr;
 	Enemy* enemy_ = nullptr;
+	DebugText* debugText_ = nullptr;
+	int gameScore_ = 0;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

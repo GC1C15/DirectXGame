@@ -35,6 +35,10 @@ void GameScene::Initialize() {
 	//エネミー
 	enemy_ = new Enemy();
 	enemy_->Initialize(viewProjection_, enemy_);
+
+	//デバックテキスト
+	debugText_ = DebugText::GetInstance();
+	debugText_->Initialize();
 }
 
 // 当たり判定関連↑
@@ -76,6 +80,7 @@ void GameScene::collisionBeamEnemy() {
 		if (bx < 1 && bz < 1) {
 			enemy_->Hit();
 			beam_->Hit();
+			gameScore_ += 100;
 		}
 	}
 }
@@ -90,7 +95,12 @@ void GameScene::Draw() {
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
 	stage_->Draw2DFar();
+	//debugText_->Print("AAA", 10, 10, 2);
+	//debugText_->DrawAll();
 
+	char str[100];
+	sprintf_s(str, "SCORE:%d", gameScore_);
+	debugText_->Print(str, 200, 10, 2);
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
