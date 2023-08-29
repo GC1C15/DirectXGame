@@ -62,6 +62,7 @@ private: // メンバ変数
 	Enemy* enemy_ = nullptr;
 	DebugText* debugText_ = nullptr;
 	int gameScore_ = 0;
+	int playerLife_ = 3;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

@@ -66,6 +66,7 @@ void GameScene::collisionPlayerEnemy() {
 		if (dx < 1 && dz < 1) 
 		{
 			enemy_->Hit();
+			playerLife_ -= 1;
 		}
 	}
 }
@@ -96,11 +97,14 @@ void GameScene::Draw() {
 	Sprite::PreDraw(commandList);
 	stage_->Draw2DFar();
 	//debugText_->Print("AAA", 10, 10, 2);
-	//debugText_->DrawAll();
+	debugText_->DrawAll();
 
 	char str[100];
+	char str1[100];
 	sprintf_s(str, "SCORE:%d", gameScore_);
+	sprintf_s(str1, "LIFE:%d", playerLife_);
 	debugText_->Print(str, 200, 10, 2);
+	debugText_->Print(str1, 1000, 10, 2);
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
