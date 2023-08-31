@@ -3,7 +3,10 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { delete gameplay_; }
+GameScene::~GameScene() {
+	delete gameplay_;
+	delete title_;
+}
 
 void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -13,15 +16,20 @@ void GameScene::Initialize() {
 	viewProjection_.translation_.z = -6;
 	viewProjection_.Initialize();
 	gameplay_ = new GamePlay();
+	title_ = new Title();
 	gameplay_->Initialize(viewProjection_);
-
+	title_->Initialize();
 }
 
 void GameScene::Update() {
 	switch (sceneMode)
 	{ 
-	case 0: 
-	gameplay_->Update();
+		case 0: 
+		gameplay_->Update();//ゲームプレイ更新
+		break;
+
+		case 1:
+		sceneMode = title_->Update(); // タイトル更新
 		break;
 	}
 }
@@ -41,6 +49,7 @@ void GameScene::Draw() {
 	case 0:
 		gameplay_->Draw2DFar();
 		break;
+
 	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -76,6 +85,10 @@ void GameScene::Draw() {
 	case 0:
 		gameplay_->Draw2DNear();
 		break;
+	case 1:
+		title_->Draw2DNear();
+		break;
+
 	}
 
 	// スプライト描画後処理

@@ -7,7 +7,8 @@
 #include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
-#include"GamePlay.h"
+#include "GamePlay.h"
+#include "Title.h"
 
 
 /// <summary>
@@ -48,7 +49,8 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	ViewProjection viewProjection_;
 	GamePlay* gameplay_ = nullptr;
-	int sceneMode = 0;//(0:タイトル	　1:ゲームシーン)
+	Title* title_ = nullptr;
+	int sceneMode = 1;//(0:タイトル	　1:ゲームシーン)
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
