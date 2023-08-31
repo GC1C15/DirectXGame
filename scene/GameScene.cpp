@@ -1,17 +1,30 @@
 #include "GameScene.h"
 #include "TextureManager.h"
-#include"GamePlay.h"
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { delete gameplay_; }
 
 void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
+	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	viewProjection_.translation_.y = 1;
+	viewProjection_.translation_.z = -6;
+	viewProjection_.Initialize();
+	gameplay_ = new GamePlay();
+	gameplay_->Initialize(viewProjection_);
+
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	switch (sceneMode)
+	{ 
+	case 0: 
+	gameplay_->Update();
+		break;
+	}
+}
 
 void GameScene::Draw() {
 
@@ -24,7 +37,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	
+	switch (sceneMode) {
+	case 0:
+		gameplay_->Draw2DFar();
+		break;
+	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -38,6 +55,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	switch (sceneMode) {
+	case 0:
+		gameplay_->Draw3D();
+		break;
+	}
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -49,6 +72,11 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	switch (sceneMode) {
+	case 0:
+		gameplay_->Draw2DNear();
+		break;
+	}
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

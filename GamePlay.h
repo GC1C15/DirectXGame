@@ -20,7 +20,7 @@ public:
 	// デストラクタ
 	~GamePlay();
 	// 初期化
-	void Initialize(ViewProjection viewProjection, GamePlay* gameplay);
+	void Initialize(ViewProjection viewProjection);
 	// 更新
 	void Update();
 	// 3D描画

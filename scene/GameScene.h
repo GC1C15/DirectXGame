@@ -7,12 +7,13 @@
 #include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
+#include"GamePlay.h"
+
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
-	ViewProjection viewProjection_;
 
 public: // メンバ関数
 	/// <summary>
@@ -44,6 +45,10 @@ public: // メンバ関数
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Audio* audio_ = nullptr;
+	Input* input_ = nullptr;
+	ViewProjection viewProjection_;
+	GamePlay* gameplay_ = nullptr;
+	int sceneMode = 0;//(0:タイトル	　1:ゲームシーン)
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

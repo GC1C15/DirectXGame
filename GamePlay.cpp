@@ -9,9 +9,8 @@ GamePlay::~GamePlay() {
 	delete beam_;
 }
 
-void GamePlay::Initialize(ViewProjection viewProjection, GamePlay* gameplay) { 
+void GamePlay::Initialize(ViewProjection viewProjection) { 
 	viewProjection_ = viewProjection;
-	gameplay_ = gameplay;
 	input_ = Input::GetInstance();
 	// stage
 	viewProjection_.translation_.y = 1;
@@ -59,10 +58,11 @@ void GamePlay::Draw2DFar() {
 	debugText_->DrawAll();
 
 	char str[100];
+	char str1[100];
 	sprintf_s(str, "SCORE:%d", gameScore_);
-	sprintf_s(str, "LIFE:%d", playerLife_);
+	sprintf_s(str1, "LIFE:%d", playerLife_);
 	debugText_->Print(str, 200, 10, 2);
-	debugText_->Print(str, 1000, 10, 2);
+	debugText_->Print(str1, 1000, 10, 2);
 }
 
 void GamePlay::Draw2DNear() {}
