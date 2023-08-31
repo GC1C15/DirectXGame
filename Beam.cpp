@@ -1,5 +1,5 @@
 ﻿#include "Beam.h"
-#include "Player.h"
+
 Beam::Beam() {}
 
 Beam::~Beam() { delete modelBeam_; }
@@ -7,53 +7,51 @@ Beam::~Beam() { delete modelBeam_; }
 void Beam::Initialize(ViewProjection viewProjection, Player* player) {
 	viewProjection_ = viewProjection;
 	player_ = player;
-	// ビーム
-		textureHandleBeam_ = TextureManager::Load("beam.png");
-		modelBeam_ = Model::Create();
-		worldTransformBeam_.scale_ = {0.3f, 0.3f, 0.3f};
-		worldTransformBeam_.Initialize();
-	// インプットクラス
+
+	textureHandleBeam_ = TextureManager::Load("beam.png");
+	modelBeam_ = Model::Create();
+	worldTransformBeam_.scale_ = {0.3f, 0.3f, 0.3f};
+	worldTransformBeam_.Initialize();
+
 	input_ = Input::GetInstance();
 }
 
 void Beam::Update() {
-	// ビームの更新
-	Born();
 	Move();
-		worldTransformBeam_.matWorld_ = MakeAffineMatrix(
-		worldTransformBeam_.scale_, worldTransformBeam_.rotation_,
-		worldTransformBeam_.translation_);
-		// 変更行列を定数バッファに転送
-		worldTransformBeam_.TransferMatrix();
+
+	worldTransformBeam_.matWorld_ = MakeAffineMatrix(
+	    worldTransformBeam_.scale_, worldTransformBeam_.rotation_,
+	    worldTransformBeam_.translation_);
+	worldTransformBeam_.TransferMatrix();
+}
+void Beam::Move() {
+	if (aliveFlag_ == 1) {
+		worldTransformBeam_.rotation_.x += 0.1f;
+		worldTransformBeam_.translation_.z += 0.3f;
+
+		if (worldTransformBeam_.translation_.z >= 40.0f) {
+			aliveFlag_ = 0;
+		}
+	}
 }
 
 void Beam::Born() {
-	if (input_->PushKey(DIK_SPACE)) {
-	    if (BeamFlag_ == 0) {
-		    worldTransformBeam_.translation_.x = player_->GetX();
-		    worldTransformBeam_.translation_.z = player_->GetZ();
-		    BeamFlag_ = 1;
-	    }
+	if (input_->TriggerKey(DIK_SPACE) && aliveFlag_ == 0) {
+		worldTransformBeam_.translation_.x = player_->GetX();
+		worldTransformBeam_.translation_.z = player_->GetZ();
+
+		aliveFlag_ = 1;
 	}
 }
 
-
-void Beam::Move() {
-	if (BeamFlag_ == 1) {
-		worldTransformBeam_.translation_.z += 0.5f;
-		worldTransformBeam_.rotation_.x += 0.1f;
-	}
-
-	if (worldTransformBeam_.translation_.z > 40.0f) {
-		BeamFlag_ = 0;
-	}
+void Beam::Start() {
+	aliveFlag_ = 0;
+	worldTransformBeam_.translation_.x = player_->GetX();
+	worldTransformBeam_.translation_.z = player_->GetZ();
 }
-// ビーム関連↑
 
 void Beam::Draw3D() {
-	// ビーム
-	if (BeamFlag_ == 1) 
-	{
+	if (aliveFlag_ == 1) {
 		modelBeam_->Draw(worldTransformBeam_, viewProjection_, textureHandleBeam_);
 	}
 }

@@ -1,44 +1,61 @@
 #include "GameScene.h"
-#include "TextureManager.h"
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	delete gameplay_;
 	delete title_;
-	delete gameover_;
+	delete gamaover_;
 }
 
 void GameScene::Initialize() {
+
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
 	viewProjection_.translation_.y = 1;
 	viewProjection_.translation_.z = -6;
 	viewProjection_.Initialize();
+
 	gameplay_ = new GamePlay();
 	title_ = new Title();
-	gameover_ = new Gameover();
-	gameplay_->Initialize(viewProjection_);
+	gamaover_ = new GameOver();
+
+	gameplay_->Initialize(viewProjection_, player_);
 	title_->Initialize();
-	gameover_->Initialize();
-	
+	gamaover_->Initialize();
 }
 
 void GameScene::Update() {
-	switch (sceneMode)
-	{ 
-		case 0: 
-		gameplay_->Update();//ゲームプレイ更新
-		break;
+	int oldSceneMode = sceneMode_;
 
+	switch (sceneMode_) {
+	case 0:
+		sceneMode_ = gameplay_->Update();
+		gameplay_->Shot();
+		break;
+	case 1:
+		sceneMode_ = title_->Update();
+		break;
+	case 2:
+		sceneMode_ = gamaover_->Update();
+		break;
+	}
+
+	if (oldSceneMode != sceneMode_) {
+		switch (sceneMode_) {
+		case 0:
+			gameplay_->Sound();
+			gameplay_->Start();
+			break;
 		case 1:
-		sceneMode = title_->Update(); //タイトル更新
-		break;
-
+			title_->Start();
+			break;
 		case 2:
-		sceneMode = gameover_->Update(); //ゲームオーバー更新
-		break;
+			gamaover_->Start();
+			break;
+		}
 	}
 }
 
@@ -50,14 +67,14 @@ void GameScene::Draw() {
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
+
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	switch (sceneMode) {
+	switch (sceneMode_) {
 	case 0:
 		gameplay_->Draw2DFar();
 		break;
-
 	case 2:
 		gameplay_->Draw2DFar();
 		break;
@@ -75,17 +92,14 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	switch (sceneMode) {
+	switch (sceneMode_) {
 	case 0:
 		gameplay_->Draw3D();
 		break;
-
 	case 2:
 		gameplay_->Draw3D();
 		break;
-
 	}
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -97,22 +111,18 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	switch (sceneMode) {
+	switch (sceneMode_) {
 	case 0:
 		gameplay_->Draw2DNear();
 		break;
-
 	case 1:
 		title_->Draw2DNear();
 		break;
-
 	case 2:
-		gameover_->Draw2DNear();
 		gameplay_->Draw2DNear();
+		gamaover_->Draw2DNear();
 		break;
-
 	}
-
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

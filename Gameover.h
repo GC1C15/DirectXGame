@@ -1,32 +1,42 @@
 ﻿#pragma once
+
+#include "Audio.h"
 #include "DirectXCommon.h"
+#include "GamePlay.h"
 #include "Input.h"
 #include "MathUtilityForText.h"
 #include "Model.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
+#include "Title.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-class Gameover {
+
+class GameOver {
 public:
-	// コンストラクタ
-	Gameover();
-	// デストラクタ
-	~Gameover();
-	// 初期化
+	GameOver();
+	~GameOver();
+
+	void Start();
+
 	void Initialize();
-	// 更新
 	int Update();
-	// 2D前背景描画
 	void Draw2DNear();
 
 private:
-	Input* input_ = nullptr;
-	// タイトル(スプライト)
-	uint32_t textureHandle_gameover = 0;
-	uint32_t textureHandle_enter = 0;
-	Sprite* spriteGameover_ = nullptr;
+	uint32_t textureHandlegameover_ = 0;
+	Sprite* spritegameover_ = nullptr;
+
+	uint32_t textureHandleEnter_ = 0;
 	Sprite* spriteEnter_ = nullptr;
-	int charTimer_ = 0;
-	int sceneMode;
+
+	Input* input_ = nullptr;
+
+	int timer_ = 0;
+
+	GamePlay* gameplay_ = nullptr;
+
+	Audio* audio_ = nullptr;
+	uint32_t soundataHandleGameOverBGM_ = 0;
+	uint32_t voiceHandleBGM_ = 0;
 };

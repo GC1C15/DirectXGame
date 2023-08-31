@@ -1,16 +1,23 @@
 #pragma once
 
 #include "Audio.h"
+#include "Beam.h"
+#include "DebugText.h"
 #include "DirectXCommon.h"
+#include "Enemy.h"
+#include "GameOver.h"
+#include "GamePlay.h"
 #include "Input.h"
 #include "Model.h"
 #include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
-#include "GamePlay.h"
+#include "Stage.h"
+#include "TextureManager.h"
 #include "Title.h"
-#include "Gameover.h"
-
+#include "ViewProjection.h"
+#include "WorldTransform.h"
+#include <cassert>
 
 /// <summary>
 /// ゲームシーン
@@ -43,16 +50,20 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
-	Audio* audio_ = nullptr;
 	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+
 	ViewProjection viewProjection_;
+
 	GamePlay* gameplay_ = nullptr;
 	Title* title_ = nullptr;
-	Gameover* gameover_ = nullptr;
-	int sceneMode = 1;//(0:タイトル	　1:ゲームシーン)
+	GameOver* gamaover_ = nullptr;
+	Player* player_ = nullptr;
+
+	int sceneMode_ = 1;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

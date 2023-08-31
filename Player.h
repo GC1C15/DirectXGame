@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "MathUtilityForText.h"
@@ -10,29 +11,27 @@
 
 class Player {
 public:
-	// コンストラクタ
 	Player();
-	// デストラクタ
 	~Player();
 
-	// 初期化
 	void Initialize(ViewProjection viewProjection);
-	// 更新
 	void Update();
-	// 3D描画
 	void Draw3D();
-	// インプットクラス
-	Input* input_ = nullptr;
+
+	void Start();
+
 	float GetX() { return worldTransformPlayer_.translation_.x; }
 	float GetY() { return worldTransformPlayer_.translation_.y; }
 	float GetZ() { return worldTransformPlayer_.translation_.z; }
-	void Hit() { isAlive_ = 0; }
 
 private:
 	ViewProjection viewProjection_;
-	// プレイヤー
+
 	uint32_t textureHandlePlayer_ = 0;
 	Model* modelPlayer_ = nullptr;
 	WorldTransform worldTransformPlayer_;
-	int isAlive_ = 0;
+
+	Input* input_ = nullptr;
+
+	int playerTimer_ = 60;
 };

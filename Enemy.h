@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "MathUtilityForText.h"
@@ -7,40 +8,38 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <time.h>
 
 class Enemy {
 public:
-	// コンストラクタ
 	Enemy();
-	// デストラクタ
 	~Enemy();
-	// 初期化
-	void Initialize(ViewProjection viewProjection, Enemy* enemy);
-	// 更新
-	void Update();
-	// 3D描画
-	void Draw3D();
-	// インプットクラス
-	Input* input_ = nullptr;
-	void Born();
-	void Move();
-	//void Jump();
-	void Hit();//衝突処理
-	int GetFlag_() { return EnemyFlag_; }
-	float GetX() { return worldTransformEnemy_.translation_.x; }
-	float GetY() { return worldTransformEnemy_.translation_.y; }
-	float GetZ() { return worldTransformEnemy_.translation_.z; }
 
+	void Initialize(ViewProjection viewProjection);
+	void Update(int gameTimer);
+	void Draw3D();
+	void Move(int gameTimer);
+	void Born();
+	float GetX() { return worldTransformEnemy_.translation_.x; }
+	float GetZ() { return worldTransformEnemy_.translation_.z; }
+	int GetFlag() { return aliveFlag_; }
+	void Hit() { aliveFlag_ = 2; }
+	void JumpHit() { jumpSpeed_ = 1; };
+	void Start();
+	void Jump();
 
 private:
 	ViewProjection viewProjection_;
-	// ビーム
+
 	uint32_t textureHandleEnemy_ = 0;
 	Model* modelEnemy_ = nullptr;
-	Enemy* enemy_ = nullptr;
 	WorldTransform worldTransformEnemy_;
-	float enemySpeed_ = {};
-	int EnemyFlag_;
-	float enemyJumpSpeed_ = 3;
-	int gameTimer_ = 0;
+
+	Input* input_ = nullptr;
+
+	int aliveFlag_ = 0;
+
+	float xSpeed_ = 0;
+
+	float jumpSpeed_ = 0;
 };

@@ -1,4 +1,6 @@
 ﻿#pragma once
+
+#include "Audio.h"
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "MathUtilityForText.h"
@@ -7,26 +9,30 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+
 class Title {
 public:
-	// コンストラクタ
 	Title();
-	// デストラクタ
 	~Title();
-	// 初期化
+
 	void Initialize();
-	// 更新
 	int Update();
-	// 2D前背景描画
 	void Draw2DNear();
 
+	void Start();
+
 private:
-	Input* input_ = nullptr;
-	// タイトル(スプライト)
-	uint32_t textureHandle_title = 0;
-	uint32_t textureHandle_enter = 0;
+	uint32_t textureHandleTitle = 0;
 	Sprite* spriteTitle_ = nullptr;
-	Sprite* spriteEnter_ = nullptr;
-	int charTimer_ = 0;
-	int sceneMode;
+
+	uint32_t textureHandleEnter = 0;
+	Sprite* spriteEnter = nullptr;
+
+	Input* input = nullptr;
+
+	int timer = 0;
+
+	Audio* audio = nullptr;
+	uint32_t soundataHandleBGM = 0;
+	uint32_t voiceHandleBGM = 0;
 };

@@ -4,34 +4,38 @@ Title::Title() {}
 
 Title::~Title() { delete spriteTitle_; }
 
-void Title::Initialize() { 
-	input_ = Input::GetInstance();
-	//タイトル
-	textureHandle_title = TextureManager::Load("title.png");
-	spriteTitle_ = Sprite::Create(textureHandle_title, {0, 0});
-	//エンター
-	textureHandle_enter = TextureManager::Load("enter.png");
-	spriteEnter_ = Sprite::Create(textureHandle_enter, {400, 360});
+void Title::Initialize() {
+	textureHandleTitle = TextureManager::Load("title.png");
+	spriteTitle_ = Sprite::Create(textureHandleTitle, {0, 0});
+
+	textureHandleEnter = TextureManager::Load("enter.png");
+	spriteEnter = Sprite::Create(textureHandleEnter, {400, 500});
+
+	input = Input::GetInstance();
+
+	audio = Audio::GetInstance();
+	soundataHandleBGM = audio->LoadWave("Audio/Ring05.wav");
+
+	Start();
 }
 
-int Title::Update() { 
-	charTimer_++;
-	if (input_->TriggerKey(DIK_RETURN)) 
-	{
+int Title::Update() {
+	timer++;
+
+	if (input->TriggerKey(DIK_RETURN)) {
+		audio->StopWave(voiceHandleBGM);
 		return 0;
 	}
+
 	return 1;
 }
 
-void Title::Draw2DNear() 
-{
-	// タイトル表示
+void Title::Draw2DNear() {
 	spriteTitle_->Draw();
-	// エンター表示
-	if (charTimer_ % 40 >= 20) {
-		spriteEnter_->Draw();
+
+	if (timer % 40 >= 20) {
+		spriteEnter->Draw();
 	}
 }
-//chartimer:エンターの点滅
 
-
+void Title::Start() { voiceHandleBGM = audio->PlayWave(soundataHandleBGM, true); }
