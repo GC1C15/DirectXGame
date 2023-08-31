@@ -15,11 +15,9 @@ void Title::Initialize() {
 }
 
 int Title::Update() { 
-	gameTimer_ = 0;
 	charTimer_++;
 	if (input_->TriggerKey(DIK_RETURN)) 
 	{
-		sceneMode = 1;
 		return 0;
 	}
 	return 1;
@@ -34,5 +32,6 @@ void Title::Draw2DNear()
 		spriteEnter_->Draw();
 	}
 }
+//chartimer:エンターの点滅
 
 

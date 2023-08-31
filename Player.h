@@ -34,5 +34,5 @@ private:
 	uint32_t textureHandlePlayer_ = 0;
 	Model* modelPlayer_ = nullptr;
 	WorldTransform worldTransformPlayer_;
-	int isAlive_;
+	int isAlive_ = 0;
 };

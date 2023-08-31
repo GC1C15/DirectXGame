@@ -38,12 +38,17 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 	debugText_->Initialize();
 }
 
-void GamePlay::Update() {
+int GamePlay::Update() {
 	stage_->Update();
 	player_->Update();
 	beam_->Update();
 	enemy_->Update();
 	collision();
+	if (playerAlive == 1)
+	{
+		return 2;
+	}
+	return 0;
 }
 
 void GamePlay::Draw3D() {
@@ -84,6 +89,10 @@ void GamePlay::collisionPlayerEnemy() {
 			enemy_->Hit();
 			playerLife_ -= 1;
 		}
+		if (playerLife_ <= 0)
+		{
+			playerAlive = 1;
+		}
 	}
 }
 
@@ -102,3 +111,4 @@ void GamePlay::collisionBeamEnemy() {
 	}
 }
 // 当たり判定関連↑
+

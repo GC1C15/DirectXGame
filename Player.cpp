@@ -34,6 +34,7 @@ void Player::Update() {
 	if (worldTransformPlayer_.translation_.x < -4) {
 		worldTransformPlayer_.translation_.x = -4;
 	}
+
 }
 
 void Player::Draw3D() {

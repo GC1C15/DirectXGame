@@ -7,12 +7,12 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-class Title {
+class Gameover {
 public:
 	// コンストラクタ
-	Title();
+	Gameover();
 	// デストラクタ
-	~Title();
+	~Gameover();
 	// 初期化
 	void Initialize();
 	// 更新
@@ -23,9 +23,9 @@ public:
 private:
 	Input* input_ = nullptr;
 	// タイトル(スプライト)
-	uint32_t textureHandle_title = 0;
+	uint32_t textureHandle_gameover = 0;
 	uint32_t textureHandle_enter = 0;
-	Sprite* spriteTitle_ = nullptr;
+	Sprite* spriteGameover_ = nullptr;
 	Sprite* spriteEnter_ = nullptr;
 	int charTimer_ = 0;
 	int sceneMode;

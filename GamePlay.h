@@ -22,7 +22,7 @@ public:
 	// 初期化
 	void Initialize(ViewProjection viewProjection);
 	// 更新
-	void Update();
+	int Update();
 	// 3D描画
 	void Draw3D();
 	// 2D背景描画
@@ -45,5 +45,6 @@ private:
 	GamePlay* gameplay_ = nullptr;
 	DebugText* debugText_ = nullptr;
 	int gameScore_ = 0;
-	int playerLife_ = 3;
+	int playerLife_ = 1;
+	int playerAlive = 0; //0で生存 1で死亡
 };

@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "GamePlay.h"
 #include "Title.h"
+#include "Gameover.h"
 
 
 /// <summary>
@@ -50,6 +51,7 @@ private: // メンバ変数
 	ViewProjection viewProjection_;
 	GamePlay* gameplay_ = nullptr;
 	Title* title_ = nullptr;
+	Gameover* gameover_ = nullptr;
 	int sceneMode = 1;//(0:タイトル	　1:ゲームシーン)
 	/// <summary>
 	/// ゲームシーン用
